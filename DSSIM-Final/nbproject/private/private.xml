@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+<<<<<<< HEAD
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/kamre_000/Desktop/Git-DSSIM-Mod/DSSIM/DSSIM-Final/src/dssim/Methods.java</file>
+            <file>file:/C:/Users/kamre_000/Desktop/Git-DSSIM-Mod/DSSIM/DSSIM-Final/src/dssim/MainForm.java</file>
+=======
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="13">
+        <file>
+            <url>src/dssim/MainForm.java</url>
+            <bookmark id="10">
+                <name/>
+                <line>423</line>
+                <key/>
+            </bookmark>
+            <bookmark id="9">
+                <name/>
+                <line>471</line>
+                <key/>
+            </bookmark>
+            <bookmark id="13">
+                <name/>
+                <line>1102</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/Users/paulcuenin/Desktop/DSSIM-Final/DSSIM-Final/src/dssim/gui/ArrowObject.java</file>
+            <file>file:/Users/paulcuenin/Desktop/DSSIM-Final/DSSIM-Final/src/dssim/MainForm.java</file>
+            <file>file:/Users/paulcuenin/Desktop/DSSIM-Final/DSSIM-Final/src/dssim/gui/StockDialog.java</file>
+            <file>file:/Users/paulcuenin/Desktop/DSSIM-Final/DSSIM-Final/src/dssim/gui/ModelingObject.java</file>
+            <file>file:/Users/paulcuenin/Desktop/DSSIM-Final/DSSIM-Final/src/dssim/styleList.java</file>
+            <file>file:/Users/paulcuenin/Desktop/DSSIM-Final/DSSIM-Final/src/dssim/dsmFilter.java</file>
+            <file>file:/Users/paulcuenin/Desktop/DSSIM-Final/DSSIM-Final/src/dssim/gui/VariableObject.java</file>
+            <file>file:/Users/paulcuenin/Desktop/DSSIM-Final/DSSIM-Final/src/dssim/gui/FlowDialog.java</file>
+            <file>file:/Users/paulcuenin/Desktop/DSSIM-Final/DSSIM-Final/src/dssim/gui/VariableDialog.java</file>
+            <file>file:/Users/paulcuenin/Desktop/DSSIM-Final/DSSIM-Final/src/dssim/JSONRead.java</file>
+            <file>file:/Users/paulcuenin/Desktop/DSSIM-Final/DSSIM-Final/src/dssim/gui/FlowObject.java</file>
+            <file>file:/Users/paulcuenin/Desktop/DSSIM-Final/DSSIM-Final/src/dssim/GraphThis.java</file>
+>>>>>>> b1dab0aa24d83e7ca777e92d98e2b92e5e8a8876
+        </group>
+    </open-files>
+</project-private>

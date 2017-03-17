@@ -1,0 +1,10 @@
+{ 
+"Stocks" : 
+[{"init":"1","name":"stock","x":"275.0","y":"173.0","desc":"stock"}], 
+
+"Flows" : 
+[{"name":"rate","x":"478.0","y":"265.0","eq":"stock"}], 
+
+"Variables" : 
+[]
+}
