@@ -48,7 +48,7 @@ public class VariableDialog extends javax.swing.JDialog {
     public void updateComponents() {
         jTextFieldVarName.setText(voVariable.getObjName());
 
-        jTextFieldVarEquation1.setText(voVariable.getVarInitial());
+        jTextFieldVarEquation1.setText(voVariable.getVarEquation());
         String variableText = "";
         for (VariableObject valocArr1 : valocArr) {
             String vs = valocArr1.getObjName();
@@ -178,7 +178,7 @@ public class VariableDialog extends javax.swing.JDialog {
             voVariable.setObjName(jTextFieldVarName.getText());
 
         }
-        if (!this.jTextFieldVarEquation1.getText().equals(voVariable.getVarInitial())) {
+        if (!this.jTextFieldVarEquation1.getText().equals(voVariable.getVarEquation())) {
             voVariable.setVarInitial(jTextFieldVarEquation1.getText());
         }
         dispose();

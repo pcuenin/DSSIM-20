@@ -40,8 +40,8 @@ public class JSONSave {
     public JSONObject saveStock(StockObject stock) {
         JSONObject stockObj = new JSONObject();
         stockObj.put("name", stock.getStockName());
-        stockObj.put("desc", stock.getStockDescrip());
-        stockObj.put("init", stock.getStockInitial());
+        stockObj.put("symbol", stock.getStockSymbol());
+        stockObj.put("eq", stock.getStockInitial());
         mxCell stockGeo = (mxCell) stock.getO_Object();
         stockObj.put("x", String.valueOf(stockGeo.getGeometry().getCenterX()));
         stockObj.put("y", String.valueOf(stockGeo.getGeometry().getCenterY()));
@@ -64,8 +64,8 @@ public class JSONSave {
     public JSONObject saveVar(VariableObject var) {
         JSONObject varObj = new JSONObject();
         varObj.put("name", var.getVarName());
-        varObj.put("desc", var.getVarDescrip());
-        varObj.put("init", var.getVarInitial());
+        varObj.put("symbol", var.getVarSymbol());
+        varObj.put("eq", var.getVarEquation());
         mxCell varGeo = (mxCell) var.getO_Object();
         varObj.put("x", String.valueOf(varGeo.getGeometry().getCenterX()));
         varObj.put("y", String.valueOf(varGeo.getGeometry().getCenterY()));

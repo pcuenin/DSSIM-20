@@ -60,7 +60,7 @@ public class JSONRead extends MainForm{
                 JSONObject Stock = (JSONObject) it.next();
                 //String arg = (String) jsonObject.get("arg");
                 String name = (String) Stock.get("name");
-                String desc = (String) Stock.get("desc");
+                String symbol = (String) Stock.get("symbol");
                 String init = (String) Stock.get("init");
                 String x = (String) Stock.get("x");
                 x = x.substring(0, x.length() - 2);
@@ -70,7 +70,7 @@ public class JSONRead extends MainForm{
                 Object parent = graph.getDefaultParent();
                 Object node = graph.insertVertex(parent, null, name, Integer.parseInt(x),
                         Integer.parseInt(y), 100, 50, "Stock");//draw the node
-                StockObject stock = new StockObject(node, name, desc, init, x, y);
+                StockObject stock = new StockObject(node, name, symbol, init, x, y);
                 stockArrayList.add(stock);
             }
         } catch (FileNotFoundException e) {
@@ -174,8 +174,8 @@ public class JSONRead extends MainForm{
             while (it.hasNext()) {
                 JSONObject Var = (JSONObject) it.next();
                 String name = (String) Var.get("name");
-                String desc = (String) Var.get("desc");
-                String init = (String) Var.get("init");
+                String symbol = (String) Var.get("symbol");
+                String eq = (String) Var.get("eq");
                 String x = (String) Var.get("x");
                 x = x.substring(0, x.length() - 2);
                 String y = (String) Var.get("y");
@@ -184,7 +184,7 @@ public class JSONRead extends MainForm{
                 Object parent = graph.getDefaultParent();
                 Object node = graph.insertVertex(parent, null, name, Integer.parseInt(x),
                         Integer.parseInt(y), 100, 50, "Variable");//draw the node
-                VariableObject var = new VariableObject(node, name, desc, init, x, y);
+                VariableObject var = new VariableObject(node, name, symbol, eq, x, y);
                 varArrayList.add(var);
             }
         } catch (FileNotFoundException e) {
@@ -228,86 +228,7 @@ public class JSONRead extends MainForm{
         return fpArrayList;
     }
     
-    /*public static ArrayList<ArrowObject> readArrow(JSONParser parser, File filename,ArrayList<StockObject> stocks,
-            ArrayList<VariableObject> variables, ArrayList<ConnectableModelObject> flowpools) {
-        ArrayList<ArrowObject> arrowArrayList = new ArrayList();
-        //ConnectableModelObject CMOFrom=null;
-        //ConnectableModelObject CMOTo=null;
-        Object CMOFrom = null;
-        Object CMOTo = null;
-        try {
-            Object obj = parser.parse(new FileReader(filename));
-            JSONObject jArrow = (JSONObject) obj;
-            JSONArray jArrowArray = (JSONArray) jArrow.get("Arrows");
-            Iterator it = jArrowArray.iterator();
-            while (it.hasNext()) {
-                JSONObject Arrow = (JSONObject) it.next();
-                String name = (String) Arrow.get("name");
-                String from = (String) Arrow.get("from");
-                String to = (String) Arrow.get("to");
-                String toStyle = (String) Arrow.get("toStyle")+"";
-                String fromStyle = (String) Arrow.get("fromStyle")+"";
-                
-                if(Integer.valueOf(fromStyle)==2){
-                   for(int i = 0; i<stocks.size(); i++){
-                       if(from.equals(stocks.get(i).getStockName()))
-                          CMOFrom=stocks.get(i);
-                   } 
-                }
-                else if(Integer.valueOf(fromStyle)==3){
-                    for(int i = 0; i<variables.size(); i++){
-                       if(from.equals(variables.get(i).getVarName()))
-                          CMOFrom=variables.get(i);
-                   } 
-                }
-                else{
-                    for(int i = 0; i<flowpools.size(); i++){
-                       if(from.equals(flowpools.get(i).getCMOName()))
-                          CMOFrom=flowpools.get(i);
-                   } 
-                }
-                
-                if(Integer.valueOf(toStyle)==2){
-                   for(int i = 0; i<stocks.size(); i++){
-                       if(to.equals(stocks.get(i).getStockName()))
-                          CMOTo=stocks.get(i);
-                   } 
-                }
-                else if(Integer.valueOf(toStyle)==3){
-                    for(int i = 0; i<variables.size(); i++){
-                       if(to.equals(variables.get(i).getVarName()))
-                          CMOTo=variables.get(i);
-                   } 
-                }
-                else{
-                     for(int i = 0; i<flowpools.size(); i++){
-                       if(to.equals(flowpools.get(i).getCMOName()))
-                          CMOTo=flowpools.get(i);
-                   } 
-                }
-                
-                Object parent = graph.getDefaultParent();
-                //mxCell toGeo = (mxCell) CMOTo.getO_Object();
-                //mxCell fromGeo = (mxCell) CMOFrom.getO_Object();
-                //Object nodeFrom = getGraphComponent().getCellAt((int)fromGeo.getGeometry().getCenterX(),(int)fromGeo.getGeometry().getCenterY());
-                //Object nodeTo = getGraphComponent().getCellAt((int)toGeo.getGeometry().getCenterX(),(int)toGeo.getGeometry().getCenterY());
-                ModelingObject moSrc = getModelObject(CMOFrom);
-                ModelingObject moTo = getModelObject(CMOTo);
-                Object node = graph.insertEdge(parent, null, null, CMOFrom, CMOTo, "Arrow");//draw the node
-                //Object node = graph.insertEdge(parent, null, null, CMOFrom, CMOTo, "Arrow");
-                ArrowObject arrow = new ArrowObject(name, node, (ConnectableModelObject)moSrc, (ConnectableModelObject)moTo);
-                arrowArrayList.add(arrow);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return arrowArrayList;
-    }*/
+    
     public static ArrayList<String[]> readArrow(JSONParser parser, File filename,ArrayList<StockObject> stocks,
             ArrayList<VariableObject> variables, ArrayList<ConnectableModelObject> flowpools){
         ArrayList<String[]> tempArrows = new ArrayList();

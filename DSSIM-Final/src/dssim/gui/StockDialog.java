@@ -50,7 +50,7 @@ public class StockDialog extends javax.swing.JDialog {
 
     public void updateComponents() {
         jTextFieldStockName.setText(soStock.getObjName());
-        jTextFieldStockDesc.setText(soStock.getStockDescrip());
+        jTextFieldStockSym.setText(soStock.getStockSymbol());
         Vector<ModelingObject> inputs = soStock.getInputs();
         Vector<ModelingObject> outputs = soStock.getOutputs();
         // find flow equations and pull their equation to text
@@ -101,7 +101,7 @@ public class StockDialog extends javax.swing.JDialog {
         stocknameLabel1 = new javax.swing.JLabel();
         jTextFieldStockName = new javax.swing.JTextField();
         jLabeldesc2 = new javax.swing.JLabel();
-        jTextFieldStockDesc = new javax.swing.JTextField();
+        jTextFieldStockSym = new javax.swing.JTextField();
         jLabelequation3 = new javax.swing.JLabel();
         jTextFieldStockEquation1 = new javax.swing.JTextField();
         jLabelIV4 = new javax.swing.JLabel();
@@ -116,7 +116,7 @@ public class StockDialog extends javax.swing.JDialog {
 
         stocknameLabel1.setText("Stock Name");
 
-        jLabeldesc2.setText("Description");
+        jLabeldesc2.setText("Symbol");
 
         jLabelequation3.setText("Equation");
 
@@ -164,7 +164,7 @@ public class StockDialog extends javax.swing.JDialog {
                             .addComponent(jLabelIV4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldStockDesc)
+                            .addComponent(jTextFieldStockSym)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jTextFieldStockName, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
                                 .addGap(78, 78, 78))
@@ -183,7 +183,7 @@ public class StockDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabeldesc2)
-                    .addComponent(jTextFieldStockDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldStockSym, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelequation3)
@@ -227,8 +227,8 @@ public class StockDialog extends javax.swing.JDialog {
         if (!jTextFieldStockName.getText().equals(soStock.getObjName())) {
             soStock.setObjName(jTextFieldStockName.getText());
         }
-        if (!jTextFieldStockDesc.getText().equals(soStock.getStockDescrip())) {
-            soStock.setStockDescrip(jTextFieldStockDesc.getText());
+        if (!jTextFieldStockSym.getText().equals(soStock.getStockSymbol())) {
+            soStock.setStockSymbol(jTextFieldStockSym.getText());
         }
         if (!jTextFieldStockIniVal2.getText().equals(soStock.getStockInitial())) {
             soStock.setStockInitial(jTextFieldStockIniVal2.getText());
@@ -290,10 +290,10 @@ public class StockDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelequation3;
     private javax.swing.JLabel jLabelvariable5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextFieldStockDesc;
     private javax.swing.JTextField jTextFieldStockEquation1;
     private javax.swing.JTextField jTextFieldStockIniVal2;
     private javax.swing.JTextField jTextFieldStockName;
+    private javax.swing.JTextField jTextFieldStockSym;
     private javax.swing.JTextField jTextFieldStockVariables3;
     private javax.swing.JLabel stocknameLabel1;
     // End of variables declaration//GEN-END:variables

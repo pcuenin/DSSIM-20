@@ -30,6 +30,7 @@ package dssim;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
@@ -55,8 +56,9 @@ public class GraphThis extends ApplicationFrame {
                 true,
                 true,
                 false
+                
         );
-
+        
         //create a panel to hold the chart
         final ChartPanel chartPanel = new ChartPanel(chart);
         //create an overall frame for the chart
@@ -68,6 +70,7 @@ public class GraphThis extends ApplicationFrame {
         chartPanel.setMouseWheelEnabled(true);
         chartPanel.setHorizontalAxisTrace(true);
         chartPanel.setVerticalAxisTrace(true);
+        
         //add button to also view a table
         JButton toTable = new JButton("View Table");
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -110,6 +113,9 @@ public class GraphThis extends ApplicationFrame {
         });
 
         panel.add(auto);
+        XYPlot plot = chart.getXYPlot();
+        plot.setBackgroundPaint(Color.white);
+        plot.setRangeGridlinePaint(Color.black);
         //show everything together
         frame.add(panel, BorderLayout.SOUTH);
         frame.pack();

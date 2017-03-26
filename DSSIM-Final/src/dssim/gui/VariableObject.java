@@ -31,24 +31,27 @@ import org.mariuszgromada.math.mxparser.Argument;
  */
 public class VariableObject extends ConnectableModelObject {
 
-    private String sVarDesc;
+    private String sVarSymbol;
     private String sVarName;
-    private String sVarInitial;
+    private String sVarEquation;
     //public String sFlowEquation;
     private Argument aVarArg;
     private String x;
     private String y;
 
-    public VariableObject(Object graphobject, String inputname, String inputDescription, String inputinitial, String sVarX, String sVarY) {
+    public VariableObject(Object graphobject, String inputname, String inputSymbol, String inputequation, String sVarX, String sVarY) {
         super(inputname, graphobject);
         //sObjJgraphName = graphobject.toString();
         sVarName = inputname;
-        sVarDesc = inputDescription;
-        sVarInitial = inputinitial;
+        sVarSymbol = inputSymbol;
+        sVarEquation = inputequation;
         //oObj = graphobject;
         //will cause issue if user inputs into variable a string like "x*54"
         //may use if statement to check for what type of argument constructor to use to avoid errors
-        aVarArg = new Argument(inputDescription, Double.parseDouble(inputinitial));
+        
+        //aVarArg = new Argument(inputDescription, Double.parseDouble(inputinitial),vars[])
+        aVarArg = new Argument(inputSymbol, inputequation);
+        //aVarArg = new Argument(inputSymbol, Double.parseDouble(inputequation));
         x = sVarX;
         y = sVarY;
     }
@@ -68,25 +71,26 @@ public class VariableObject extends ConnectableModelObject {
         return sVarName;
     }
 
-    public void setVarArg(String symbol, String initial) {
-        aVarArg = new Argument(symbol, Double.parseDouble(initial));
+    public void setVarArg(String symbol, String equation) {
+        //aVarArg = new Argument(symbol, Double.parseDouble(equation));
+        aVarArg = new Argument(symbol,equation);
     }
 
-    public String getVarDescrip() {
-        return sVarDesc;
+    public String getVarSymbol() {
+        return sVarSymbol;
     }
 
     public void setVarDescrip(String newsymbol) {
-        sVarDesc = newsymbol;
+        sVarSymbol = newsymbol;
     }
 
-    public String getVarInitial() {
-        return sVarInitial;
+    public String getVarEquation() {
+        return sVarEquation;
     }
 
-    public void setVarInitial(String newinitial) {
-        sVarInitial = newinitial;
-        setVarArg(sVarDesc, sVarInitial);
+    public void setVarInitial(String newequation) {
+        sVarEquation = newequation;
+        setVarArg(sVarSymbol, sVarEquation);
     }
 
 }

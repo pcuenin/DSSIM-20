@@ -59,7 +59,7 @@
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jTextFieldStockDesc" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTextFieldStockSym" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jTextFieldStockName" pref="153" max="32767" attributes="0"/>
                                   <EmptySpace min="78" pref="78" max="-2" attributes="0"/>
@@ -85,7 +85,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabeldesc2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldStockDesc" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextFieldStockSym" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -122,10 +122,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabeldesc2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Description"/>
+            <Property name="text" type="java.lang.String" value="Symbol"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldStockDesc">
+        <Component class="javax.swing.JTextField" name="jTextFieldStockSym">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelequation3">
           <Properties>

@@ -43,6 +43,7 @@ import dssim.gui.StockDialog;
 import dssim.gui.StockObject;
 import dssim.gui.VariableDialog;
 import dssim.gui.VariableObject;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Point;
@@ -84,7 +85,7 @@ public class MainForm extends javax.swing.JFrame {
     String style = "";
     styleList stylelist = new styleList(this);
     ModelSettings modelSettings = new ModelSettings();
-    ProgressBar progressBar = new ProgressBar();
+
     
     static final String SELECTION_MSG = "Make selection.";
     static final String SELECTION_STK = "Place Stock.";
@@ -92,8 +93,7 @@ public class MainForm extends javax.swing.JFrame {
     static final String SELECTION_ARW_SRC = "Select Arrow Source.";
     static final String SELECTION_ARW_TGT = "Select Arrow Target.";
     static final String SELECTION_FLW_SRC = "Select Flow Origin.";
-    static final String SELECTION_FLW_TGT = "Select Flow Destination.";
-    
+    static final String SELECTION_FLW_TGT = "Select Flow Destination.";    
 
     boolean runnable = false;
     String inputname;
@@ -1064,11 +1064,11 @@ public class MainForm extends javax.swing.JFrame {
         for (int i = 0; i < stockArrayList.size(); i++) {
             String s = stockArrayList.get(i).getObjName();
             final JTextField stockName = new JTextField(s);
-            final JTextField stockSymbol = new JTextField(stockArrayList.get(i).getStockDescrip());
+            final JTextField stockSymbol = new JTextField(stockArrayList.get(i).getStockSymbol());
             final JTextField stockInitial = new JTextField(stockArrayList.get(i).getStockInitial());
             int cnt = i;
             stockArrayList.get(cnt).setObjName(stockName.getText());
-            stockArrayList.get(cnt).setStockDescrip(stockSymbol.getText());
+            stockArrayList.get(cnt).setStockSymbol(stockSymbol.getText());
             stockArrayList.get(cnt).setStockInitial(stockInitial.getText());
             stockArrayList.get(cnt).setStockArg(stockSymbol.getText(), stockInitial.getText());
         }
@@ -1085,16 +1085,7 @@ public class MainForm extends javax.swing.JFrame {
         //try to reset data
         data = null;
         //call the data model
-        if (!progressBar.isFrameAvailable()) {
-            JFrame jf = new JFrame();
-            jf.add(progressBar);
-            progressBar.setFrame(jf);
-            jf.setSize(340, 270);
-            jf.setResizable(false);
-            jf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        }
 
-        progressBar.setVisible(true);
         data = method2.returnData();
     }//GEN-LAST:event_runSimBtnActionPerformed
 
@@ -1368,9 +1359,11 @@ public class MainForm extends javax.swing.JFrame {
                 XTitle = XTitleField.getText();
                 YTitle = YTitleField.getText();
                 final GraphThis graph = new GraphThis("DSSIM Graph", data, graphTitle, XTitle, YTitle, tableModel);
+                graph.setBackground(Color.white);
             } //if no, just run with the blank values or preset values
             else {
                 final GraphThis graph = new GraphThis("DSSIM Graph", data, graphTitle, XTitle, YTitle, tableModel);
+                graph.setBackground(Color.white);
             }
         } else {
             //if there are values, ask if they would like to change them
@@ -1504,6 +1497,7 @@ public class MainForm extends javax.swing.JFrame {
             AddFlowEdge(flowArrayList.get(i));
         }
 
+        arrowArrayList = new ArrayList<ArrowObject>();
         ArrayList<String[]> tempArrows = JSONRead.readArrow(parser, srcFile, stockArrayList, variableArrayList, flowPoolArrayList);
         for (int j = 0; j < tempArrows.size(); j++) {
             Object tempFrom = null, tempTo = null;
