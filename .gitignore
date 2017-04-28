@@ -1,5 +1,5 @@
 # NetBeans specific #
-nbproject/private/
+nbproject/private/*
 build/
 nbbuild/
 dist/
@@ -8,6 +8,7 @@ nbactions.xml
 nb-configuration.xml
 private.xml
 private.properties
+build-native.xml
 
 # Class Files #
 *.class
