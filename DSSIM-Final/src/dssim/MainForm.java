@@ -86,14 +86,13 @@ public class MainForm extends javax.swing.JFrame {
     styleList stylelist = new styleList(this);
     ModelSettings modelSettings = new ModelSettings();
 
-    
     static final String SELECTION_MSG = "Make selection.";
     static final String SELECTION_STK = "Place Stock.";
     static final String SELECTION_VAR = "Place Variable.";
     static final String SELECTION_ARW_SRC = "Select Arrow Source.";
     static final String SELECTION_ARW_TGT = "Select Arrow Target.";
     static final String SELECTION_FLW_SRC = "Select Flow Origin.";
-    static final String SELECTION_FLW_TGT = "Select Flow Destination.";    
+    static final String SELECTION_FLW_TGT = "Select Flow Destination.";
 
     boolean runnable = false;
     String inputname;
@@ -302,7 +301,7 @@ public class MainForm extends javax.swing.JFrame {
                         objectLoc = -1;
                         jLabel1.setText(SELECTION_MSG);
 
-                    }else{
+                    } else {
                         isFirstClickArrow = true;
                         jLabel1.setText(SELECTION_MSG);
                     }
@@ -444,6 +443,44 @@ public class MainForm extends javax.swing.JFrame {
         }
 
         return null;
+    }
+
+    void RunArrowCheck() {
+        for (int i = 0; i < this.arrowArrayList.size(); i++) {
+            ConnectableModelObject coFrom = arrowArrayList.get(i).getArrowFrom();// get the from object
+            ConnectableModelObject coTo = arrowArrayList.get(i).getArrowTo(); // get the to object
+            // pull the variable from variable or equation from flow for From Object
+            String sToEquation="this";
+            String sFromEquation="that";
+            if (coFrom instanceof VariableObject) {
+                sFromEquation = ((VariableObject) coFrom).getVarEquation();
+
+            }
+            else if (coFrom instanceof StockObject){
+                sFromEquation = ((StockObject) coFrom).getStockName();
+            }
+            
+            // pull the variable from variable or equation from flow for To Object
+            if (coTo instanceof VariableObject) {
+                sToEquation = ((VariableObject) coTo).getVarEquation();
+
+            }
+            else if (coTo instanceof FlowObject){
+                sToEquation = ((FlowObject) coTo).getFlowEquation();
+            }
+            if(sToEquation.contains(sFromEquation)){
+                // you are good
+            }else{
+                // you are bad
+            }
+            // pulls the name of the from object
+            // check the equation of the to object
+            // run a switch case to find the type of object
+            // cast the coTo to the right type of object
+            //pull the equation from coTo after casting
+            //compare equation with sFromName
+            // see about using mxparser to check
+        }
     }
 
     void AddFlowPool(int x, int y) {
@@ -771,7 +808,7 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setText(SELECTION_MSG);
 
         FileMenu.setText("File");
@@ -908,12 +945,11 @@ public class MainForm extends javax.swing.JFrame {
                                 .addComponent(viewTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1059,6 +1095,8 @@ public class MainForm extends javax.swing.JFrame {
 
     private void runSimBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runSimBtnActionPerformed
 
+        // run check here for variables pmc 04042017
+        RunArrowCheck();
         Methods method2 = new Methods();
 
         for (int i = 0; i < stockArrayList.size(); i++) {

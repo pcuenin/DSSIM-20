@@ -93,6 +93,7 @@ public class styleList {
         Arrow.put(mxConstants.STYLE_OPACITY, "100");
         Arrow.put(mxConstants.STYLE_STROKECOLOR, "#000000");
         Arrow.put(mxConstants.STYLE_STROKEWIDTH, "2");
+        
         Arrow.put(mxConstants.STYLE_VERTICAL_LABEL_POSITION, mxConstants.ALIGN_BOTTOM);
 
         //creates a variable
