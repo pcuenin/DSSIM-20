@@ -69,6 +69,7 @@ public class JSONSave {
         mxCell varGeo = (mxCell) var.getO_Object();
         varObj.put("x", String.valueOf(varGeo.getGeometry().getCenterX()));
         varObj.put("y", String.valueOf(varGeo.getGeometry().getCenterY()));
+        //varObj.put("varRef",var.getVarRef());
         //varObj.put("eq", var.getVarEq());
         return varObj;
     }

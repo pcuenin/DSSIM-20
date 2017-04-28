@@ -41,6 +41,7 @@ import java.util.Iterator;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.mariuszgromada.math.mxparser.*;
 
 /**
  *
@@ -85,7 +86,7 @@ public class JSONRead extends MainForm{
     }
 
     public static ArrayList<FlowObject> readFlow(JSONParser parser, File filename,ArrayList<StockObject> stocks,
-            ArrayList<VariableObject> variables,ArrayList<ConnectableModelObject> flowpools) {
+        ArrayList<VariableObject> variables,ArrayList<ConnectableModelObject> flowpools) {
         ArrayList<FlowObject> flowArrayList = new ArrayList();
         ConnectableModelObject CMOFrom=null;
         ConnectableModelObject CMOTo=null;
@@ -165,7 +166,7 @@ public class JSONRead extends MainForm{
 
     public static ArrayList<VariableObject> readVar(JSONParser parser, File filename) {
         ArrayList<VariableObject> varArrayList = new ArrayList();
-
+        Argument[] varRef = new Argument[0];
         try {
             Object obj = parser.parse(new FileReader(filename));
             JSONObject jVar = (JSONObject) obj;
@@ -183,8 +184,8 @@ public class JSONRead extends MainForm{
                 //Object jobj = jsonObject.get("obj");
                 Object parent = graph.getDefaultParent();
                 Object node = graph.insertVertex(parent, null, name, Integer.parseInt(x),
-                        Integer.parseInt(y), 100, 50, "Variable");//draw the node
-                VariableObject var = new VariableObject(node, name, symbol, eq, x, y);
+                Integer.parseInt(y), 100, 50, "Variable");//draw the node
+                VariableObject var = new VariableObject(node, name, symbol, eq, x, y, varRef);
                 varArrayList.add(var);
             }
         } catch (FileNotFoundException e) {
@@ -230,7 +231,7 @@ public class JSONRead extends MainForm{
     
     
     public static ArrayList<String[]> readArrow(JSONParser parser, File filename,ArrayList<StockObject> stocks,
-            ArrayList<VariableObject> variables, ArrayList<ConnectableModelObject> flowpools){
+        ArrayList<VariableObject> variables, ArrayList<ConnectableModelObject> flowpools){
         ArrayList<String[]> tempArrows = new ArrayList();
         try {
             Object obj = parser.parse(new FileReader(filename));

@@ -84,13 +84,14 @@ public class styleList {
         FlowPool.put(mxConstants.STYLE_NOLABEL, "1");
 
         //creates a style for a right facing arrow
-        Arrow.put(mxConstants.STYLE_MOVABLE, "false");
+        //Arrow.put(mxConstants.STYLE_MOVABLE, "false");
 
         //Arrow.put(mxConstants.STYLE_IMAGE, "file:Images/ArrowImg.png");
         Arrow.put(mxConstants.STYLE_RESIZABLE, "false");
         Arrow.put(mxConstants.STYLE_EDITABLE, "false");
         Arrow.put(mxConstants.STYLE_DASHED, "false");
         Arrow.put(mxConstants.STYLE_OPACITY, "100");
+        Arrow.put(mxConstants.SHAPE_CURVE,"curve");
         Arrow.put(mxConstants.STYLE_STROKECOLOR, "#000000");
         Arrow.put(mxConstants.STYLE_STROKEWIDTH, "2");
         
