@@ -60,13 +60,13 @@ public final class Methods {
     public Methods(ArrayList<StockObject> stockArrayList,
             ArrayList<FlowObject> flowArrayList,
             ArrayList<VariableObject> variableArrayList, double t0,
-            double tf, double stepSize, String choice) {
+            double tf, double stepSize, String choice, Argument[] varRefs) {
 
         StockObject stock;
         VariableObject var;
         mxGraph graph = MainForm.getGraph();
         Object node = graph.createVertex(null, null, "t", 0, 0, 100, 50, "Time");
-        VariableObject time = new VariableObject(node, "t", "t", Double.toString(t0), "0", "0");
+        VariableObject time = new VariableObject(node, "t", "t", Double.toString(t0), "0", "0",varRefs);
         //for each stock get the stock initial values and add to the argumentList
         for (StockObject stockArrayList1 : stockArrayList) {
             stock = (StockObject) stockArrayList1; //get initial value
@@ -80,11 +80,11 @@ public final class Methods {
         variableArgList.add(time.getVarArg());
         //the user choice of numerical analysis method is sent to these if statements
         if ("rk4".equals(choice)) {
-            data = rk4(t0, tf, stepSize, argumentList, variableArgList, stockArrayList, flowArrayList);
+            data = rk4(t0, tf, stepSize, argumentList, variableArgList, stockArrayList, flowArrayList, variableArrayList);
         } else if ("rk2".equals(choice)) {
-            data = rk2(t0, tf, stepSize, argumentList, variableArgList, stockArrayList, flowArrayList);
+            data = rk2(t0, tf, stepSize, argumentList, variableArgList, stockArrayList, flowArrayList, variableArrayList);
         } else {
-            data = eulers(t0, tf, stepSize, argumentList, variableArgList, stockArrayList, flowArrayList);
+            data = eulers(t0, tf, stepSize, argumentList, variableArgList, stockArrayList, flowArrayList, variableArrayList);
         }
 
     }
@@ -99,7 +99,7 @@ public final class Methods {
 
     public XYSeriesCollection rk4(double t0, double tF, double stepSize,
             ArrayList<Argument> argumentList, ArrayList<Argument> variableArgList,
-            ArrayList<StockObject> stockArrayList, ArrayList<FlowObject> flowArrayList) {
+            ArrayList<StockObject> stockArrayList, ArrayList<FlowObject> flowArrayList, ArrayList<VariableObject> variableArrayList) {
 
         //aVarList is an argument array that is created from the argument ArrayList given to it. 
         Argument[] aVarList = argumentList.toArray(new Argument[argumentList.size()]);
@@ -172,7 +172,7 @@ public final class Methods {
             //t = Math.floor(t * Math.pow(10,cutoff)) / Math.pow(10,cutoff);
             variableArgList.get(variableArgList.size() - 1).setArgumentValue(t);
             //Let's find k1:
-            dydt = RightHandSide(variableArgList, argumentList, flowArrayList, stockArrayList);
+            dydt = RightHandSide(variableArgList, argumentList, flowArrayList, stockArrayList,variableArrayList);
 
             for (int i = 0; i < numOfStocks; i++) {
 
@@ -185,7 +185,7 @@ public final class Methods {
                 value = (argumentList.get(i).getArgumentValue() + (k1.get(i) / 2));
                 aTempArgArrayList.get(i).setArgumentValue(value);
 
-                dydt = RightHandSide(variableArgList, aTempArgArrayList, flowArrayList, stockArrayList);
+                dydt = RightHandSide(variableArgList, aTempArgArrayList, flowArrayList, stockArrayList,variableArrayList);
             }
             for (int i = 0; i < numOfStocks; i++) {
                 k2.set(i, stepSize * dydt[i]);
@@ -196,7 +196,7 @@ public final class Methods {
                 variableArgList.get(variableArgList.size() - 1).setArgumentValue(t + (stepSize / 2));
                 value = argumentList.get(i).getArgumentValue() + (k2.get(i) / 2);
                 aTempArgArrayList.get(i).setArgumentValue(value);
-                dydt = RightHandSide(variableArgList, aTempArgArrayList, flowArrayList, stockArrayList);
+                dydt = RightHandSide(variableArgList, aTempArgArrayList, flowArrayList, stockArrayList,variableArrayList);
             }
             for (int i = 0; i < numOfStocks; i++) {
                 k3.set(i, stepSize * dydt[i]);
@@ -207,7 +207,7 @@ public final class Methods {
                 variableArgList.get(variableArgList.size() - 1).setArgumentValue(t + stepSize);
                 value = argumentList.get(i).getArgumentValue() + (k3.get(i));
                 aTempArgArrayList.get(i).setArgumentValue(value);
-                dydt = RightHandSide(variableArgList, aTempArgArrayList, flowArrayList, stockArrayList);
+                dydt = RightHandSide(variableArgList, aTempArgArrayList, flowArrayList, stockArrayList,variableArrayList);
             }
             for (int i = 0; i < numOfStocks; i++) {
                 k4.set(i, stepSize * dydt[i]);
@@ -222,11 +222,6 @@ public final class Methods {
             }
 
             int row = n + 1;
-            //double tablex=row*stepSize;
-            //tableStrings[0] = Double.toString(Math.floor(tablex*Math.pow(10,cutoff))/Math.pow(10,cutoff));
-            //BigDecimal tablet = new BigDecimal(row*stepSize);
-            //String tabletime = tablet.setScale(cutoff, RoundingMode.CEILING).toString();
-            //tableStrings[0] = tabletime.substring(0, tabletime.length()-2);
             tableStrings[0] = Double.toString(row * stepSize);
             for (int col = 0; col < stockArrayList.size(); col++) {
                 //tableStrings[col + 1] = Double.toString(Math.floor(argumentList.get(col).getArgumentValue()* Math.pow(10,cutoff)) / Math.pow(10,cutoff));
@@ -244,9 +239,21 @@ public final class Methods {
         return data;
     }
 
+    /**
+     * 
+     * @param t0
+     * @param tF
+     * @param stepSize
+     * @param argumentList
+     * @param variableArgList
+     * @param stockArrayList
+     * @param flowArrayList
+     * @param variableArrayList
+     * @return 
+     */
     public XYSeriesCollection rk2(double t0, double tF, double stepSize,
             ArrayList<Argument> argumentList, ArrayList<Argument> variableArgList,
-            ArrayList<StockObject> stockArrayList, ArrayList<FlowObject> flowArrayList) {
+            ArrayList<StockObject> stockArrayList, ArrayList<FlowObject> flowArrayList, ArrayList<VariableObject> variableArrayList) {
 
         //Used to help create the tempvarlist
         Argument[] aVarList = argumentList.toArray(new Argument[argumentList.size()]);
@@ -312,7 +319,7 @@ public final class Methods {
             variableArgList.get(variableArgList.size() - 1).setArgumentValue(t);
 
             //Let's find k1:
-            dydt = RightHandSide(variableArgList, argumentList, flowArrayList, stockArrayList);
+            dydt = RightHandSide(variableArgList, argumentList, flowArrayList, stockArrayList,variableArrayList);
 
             for (int i = 0; i < numOfStocks; i++) {
 
@@ -325,7 +332,7 @@ public final class Methods {
                 value = (argumentList.get(i).getArgumentValue() + (k1.get(i)));
                 aTempArgArrayList.get(i).setArgumentValue(value);
 
-                dydt = RightHandSide(variableArgList, aTempArgArrayList, flowArrayList, stockArrayList);
+                dydt = RightHandSide(variableArgList, aTempArgArrayList, flowArrayList, stockArrayList,variableArrayList);
             }
             for (int i = 0; i < numOfStocks; i++) {
                 k2.set(i, stepSize * dydt[i]);
@@ -358,9 +365,9 @@ public final class Methods {
         return data;
     }
 
-    public XYSeriesCollection eulers(double t0, double tF, double stepSize, ArrayList<Argument> argumentList,
-            ArrayList<Argument> variableArgList, ArrayList<StockObject> stockArrayList,
-            ArrayList<FlowObject> flowArrayList) {
+    public XYSeriesCollection eulers(double t0, double tF, double stepSize,
+            ArrayList<Argument> argumentList, ArrayList<Argument> variableArgList,
+            ArrayList<StockObject> stockArrayList, ArrayList<FlowObject> flowArrayList, ArrayList<VariableObject> variableArrayList) {
 
         //Used to help create the tempvarlist
         Argument[] aVarList = argumentList.toArray(new Argument[argumentList.size()]);
@@ -421,7 +428,7 @@ public final class Methods {
            // t = Math.ceil(t * 10000) / 10000;
 
             //Let's find k1:
-            dydt = RightHandSide(variableArgList, argumentList, flowArrayList, stockArrayList);
+            dydt = RightHandSide(variableArgList, argumentList, flowArrayList, stockArrayList, variableArrayList);
 
             for (int i = 0; i < numOfStocks; i++) {
 
@@ -433,7 +440,7 @@ public final class Methods {
                 value = argumentList.get(i).getArgumentValue() + (k1.get(i));
                 //value = Math.ceil(value * 10000) / 10000;
                 argumentList.get(i).setArgumentValue(value);
-
+                
             }
 
             int row = n + 1;
@@ -454,10 +461,11 @@ public final class Methods {
         }
         return data;
     }
-
+    
     //This method handles the actual equation the user creates.
     public double[] RightHandSide(ArrayList<Argument> variableArgList, ArrayList<Argument> stockArgList, 
-            ArrayList<FlowObject> flowArrayList, ArrayList<StockObject> stockArrayList) {
+            ArrayList<FlowObject> flowArrayList, ArrayList<StockObject> stockArrayList,
+            ArrayList<VariableObject> variableArrayList) {
 
         //set double array of size of stockArrayList
         double[] ret = new double[stockArgList.size()];
@@ -468,18 +476,23 @@ public final class Methods {
         Argument[] globalvariables = globalArgList.toArray(new Argument[globalArgList.size()]);
 
         Expression e;
+        Expression v;
         //for how ever many stocks there are, you get each stock and find the solution to each equation from the stock using
         // the variables array. it then returns that to the double ret array at the appropriate index
-
-        /*for (int i = 0; i < stockArgList.size(); i++) {
-                //Think about having general expressions passed to this loop, if you
-            //can actually change parts of the expressions using e.whatever
-            e = new Expression(flow.getFlowEquation(), globalvariables);
-
-            ret[i] = e.calculate();
-
-        }*/
         
+        //code for updating variable values. needs to be fixed -KM
+        /*for (int k = 0;k<variableArgList.size(); k++){
+            VariableObject var = variableArrayList.get(k);
+            String eq=var.getVarEquation();
+            v = new Expression(eq, globalvariables);
+            variableArgList.get(k).setArgumentValue(v.calculate());
+            for(int r=0;r<globalArgList.size();r++){
+                if(globalArgList.get(r).getArgumentName().equals(variableArgList.get(k).getArgumentName())){
+                    globalArgList.get(r).setArgumentValue(variableArgList.get(k).getArgumentValue());
+                }
+                else{}
+            }
+        }*/
         for (int i = 0; i < stockArgList.size(); i++) {
             StockObject stock = stockArrayList.get(i);
             Vector<ModelingObject> inputs = stock.getInputs();

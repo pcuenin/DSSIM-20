@@ -67,6 +67,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.json.simple.parser.JSONParser;
+import org.mariuszgromada.math.mxparser.*;
+import java.util.List;
 
 public class MainForm extends javax.swing.JFrame {
 
@@ -101,6 +103,7 @@ public class MainForm extends javax.swing.JFrame {
     String inputinitial;
     String inputequation;
     String inputValue;
+    Argument[] variables = null;
     public static final String STOCK_STYLE = "Stock";
     public static final String VARIABLE_STYLE = "Variable";
     public static final String ARROW_STYLE = "Arrow";
@@ -307,7 +310,7 @@ public class MainForm extends javax.swing.JFrame {
                         jLabel1.setText(SELECTION_MSG);
                     }
                 } else if (objectLoc == 4) {
-                    AddVariable(style, inputname, inputdescrip, inputValue, e.getX(), e.getY());
+                    AddVariable(style, inputname, inputdescrip, inputValue, e.getX(), e.getY(), variables);
                     objectLoc = -1;
                     jLabel1.setText(SELECTION_MSG);
                 } else {
@@ -549,7 +552,7 @@ public class MainForm extends javax.swing.JFrame {
 
 // This method will add a variable to the graph
     void AddVariable(String styleName, String inputName,
-            String inputSymbol, String inputInitial, int x, int y) {
+        String inputSymbol, String inputInitial, int x, int y, Argument[] variables) {
         Object parent = graph.getDefaultParent();
         graphComponent.setConnectable(true);
         graph.setCellsCloneable(false);
@@ -559,7 +562,7 @@ public class MainForm extends javax.swing.JFrame {
         try {
             Object node = graph.insertVertex(parent, null, inputName, x, y, 100, 50, styleName);//draw the node
             VariableObject variableobject = new VariableObject(node, inputName,
-                    inputSymbol, inputInitial, x + "", y + "");
+                    inputSymbol, inputInitial, x + "", y + "",variables);
             variableArrayList.add(variableobject);
         } finally {
             graph.getModel().endUpdate();
@@ -940,10 +943,10 @@ public class MainForm extends javax.swing.JFrame {
                                 .addComponent(runSimBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(modelSettingsBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addContainerGap())
         );
 
         runSimBtn.getAccessibleContext().setAccessibleName("Run \nSimulation");
@@ -1050,7 +1053,7 @@ public class MainForm extends javax.swing.JFrame {
         //ImageIcon icon1 = new ImageIcon(getClass().getResource("/dssim/Lander.jpg"));
         JOptionPane.showMessageDialog(null, "This Project has Been Completed Under the Advisement of Dr. Gilliean Lee."
                 + "\nVersion 2.0 was developed by"
-                + "\naul Cuenin and Kamren Mangrum."
+                + "\nPaul Cuenin and Kamren Mangrum."
                 + "\nVersion 1.0 was developed by "
                 + " \nLogan Bautista, Jeleshia Freeman, TJ Shedd and Taylor Wilcox. "
                 + "\nLander University class of April 2016"
@@ -1073,11 +1076,18 @@ public class MainForm extends javax.swing.JFrame {
             stockArrayList.get(cnt).setStockArg(stockSymbol.getText(), stockInitial.getText());
         }
         //one improvement is to make things like Double.parseDouble(modelSettings.getFinalTime() static variables
-
+        List<Argument> list = new ArrayList<>();
+        for(int p=0;p<variableArrayList.size();p++){
+            list.add(variableArrayList.get(p).getVarArg());
+        }
+        Argument[] varRefs = list.toArray(new Argument[0]);
+        for(int u=0;u<variableArrayList.size();u++){
+            variableArrayList.get(u).setVarRef(varRefs);
+        }
         method2 = new Methods((ArrayList) stockArrayList, flowArrayList, variableArrayList,
                 Double.parseDouble(modelSettings.getInitialTime()),
                 Double.parseDouble(modelSettings.getFinalTime()), Double.parseDouble(modelSettings.getTimeStep()),
-                methodChoice);
+                methodChoice,varRefs);
         //try to reset data
         tableModel = null;
         //call the table model
@@ -1232,7 +1242,7 @@ public class MainForm extends javax.swing.JFrame {
         addStock.setLayout(new BoxLayout(addStock, BoxLayout.PAGE_AXIS));
         addStock.add(new JLabel("Stock Name"));
         addStock.add(stockName);
-        addStock.add(new JLabel("Stock Description"));
+        addStock.add(new JLabel("Stock Symbol"));
         addStock.add(stockDescrip);
         addStock.add(new JLabel("Stock Initial Value"));
         addStock.add(stockInitial);
@@ -1472,11 +1482,13 @@ public class MainForm extends javax.swing.JFrame {
         //String filename = "srcFile";
         graph.removeCells(graph.getChildVertices(graph.getDefaultParent()));
 
+        stockArrayList = new ArrayList<>();
         stockArrayList = JSONRead.readStock(parser, srcFile);
         for (int i = 0; i < stockArrayList.size(); i++) {
             AddStock(stockArrayList.get(i));
         }
-
+        
+        variableArrayList = new ArrayList<>();
         variableArrayList = JSONRead.readVar(parser, srcFile);
         for (int i = 0; i < variableArrayList.size(); i++) {
             AddVariable(variableArrayList.get(i));
@@ -1490,7 +1502,7 @@ public class MainForm extends javax.swing.JFrame {
             int fpY = Integer.valueOf(tempX[1]);
             AddFlowPool(fpX, fpY);
         }
-
+        
         flowArrayList = JSONRead.readFlow(parser, srcFile, stockArrayList, variableArrayList, flowPoolArrayList);
         for (int i = 0; i < flowArrayList.size(); i++) {
             //AddFlowEdge(flowArrayList.get(i).getFlowName(),FLOW_STYLE,flowArrayList.get(i).getFlowFrom(),flowArrayList.get(i).getFlowTo());

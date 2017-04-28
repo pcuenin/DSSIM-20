@@ -38,19 +38,22 @@ public class VariableObject extends ConnectableModelObject {
     private Argument aVarArg;
     private String x;
     private String y;
+    private Argument[] aVarRef;
 
-    public VariableObject(Object graphobject, String inputname, String inputSymbol, String inputequation, String sVarX, String sVarY) {
+    public VariableObject(Object graphobject, String inputname, String inputSymbol, String inputequation, String sVarX, String sVarY, Argument[] variables) {
         super(inputname, graphobject);
         //sObjJgraphName = graphobject.toString();
         sVarName = inputname;
         sVarSymbol = inputSymbol;
         sVarEquation = inputequation;
+        aVarRef = variables;
+        
         //oObj = graphobject;
         //will cause issue if user inputs into variable a string like "x*54"
         //may use if statement to check for what type of argument constructor to use to avoid errors
         
         //aVarArg = new Argument(inputDescription, Double.parseDouble(inputinitial),vars[])
-        aVarArg = new Argument(inputSymbol, inputequation);
+        aVarArg = new Argument(inputSymbol, inputequation, variables);
         //aVarArg = new Argument(inputSymbol, Double.parseDouble(inputequation));
         x = sVarX;
         y = sVarY;
@@ -71,9 +74,9 @@ public class VariableObject extends ConnectableModelObject {
         return sVarName;
     }
 
-    public void setVarArg(String symbol, String equation) {
+    public void setVarArg(String symbol, String equation, Argument[] varRef) {
         //aVarArg = new Argument(symbol, Double.parseDouble(equation));
-        aVarArg = new Argument(symbol,equation);
+        aVarArg = new Argument(symbol,equation,varRef);
     }
 
     public String getVarSymbol() {
@@ -90,7 +93,15 @@ public class VariableObject extends ConnectableModelObject {
 
     public void setVarInitial(String newequation) {
         sVarEquation = newequation;
-        setVarArg(sVarSymbol, sVarEquation);
+        setVarArg(sVarSymbol, sVarEquation,aVarRef);
+    }
+    
+    public Argument[] getVarRef(){
+        return aVarRef;
+    }
+    
+    public void setVarRef(Argument[] newVarRef){
+        aVarRef = newVarRef;
     }
 
 }

@@ -184,7 +184,7 @@ public class ArrowDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonSaveActionPerformed
 
     /**
-     * @param args the command line arguments
+     * @param ao the command line arguments
      */
     public static void main(ArrowObject ao) {
         /* Set the Nimbus look and feel */
