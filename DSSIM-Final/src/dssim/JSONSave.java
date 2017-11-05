@@ -41,7 +41,7 @@ public class JSONSave {
         JSONObject stockObj = new JSONObject();
         stockObj.put("name", stock.getStockName());
         stockObj.put("symbol", stock.getStockSymbol());
-        stockObj.put("eq", stock.getStockInitial());
+        stockObj.put("init", stock.getStockInitial());
         mxCell stockGeo = (mxCell) stock.getO_Object();
         stockObj.put("x", String.valueOf(stockGeo.getGeometry().getCenterX()));
         stockObj.put("y", String.valueOf(stockGeo.getGeometry().getCenterY()));
